@@ -23,6 +23,11 @@ clean:
 run:
 	cargo run
 
+test_upload:
+# 	cargo run -- create --appid 108600
+
+	cargo run -- upload --appid 108600 --workshopid 3707650648 --content "/home/simon/Documents/Repositories/Steam-Uploader-tool/SteamUploader-rs/testMod/Contents/hello-world" --preview "/home/simon/Documents/Repositories/Steam-Uploader-tool/SteamUploader-rs/testMod/Contents/preview.png"
+
 test:
 	cargo test
 
