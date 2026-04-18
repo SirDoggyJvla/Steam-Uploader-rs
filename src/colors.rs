@@ -8,6 +8,7 @@ pub fn error(msg: &str) {
         let _ = stderr.set_color(termcolor::ColorSpec::new().set_fg(Some(Color::Red)).set_bold(true));
         let _ = writeln!(stderr, "{}", msg);
         let _ = stderr.reset();
+        let _ = stderr.flush();
     } else {
         eprintln!("{}", msg);
     }
@@ -20,6 +21,7 @@ pub fn warning(msg: &str) {
         let _ = stdout.set_color(termcolor::ColorSpec::new().set_fg(Some(Color::Yellow)));
         let _ = writeln!(stdout, "{}", msg);
         let _ = stdout.reset();
+        let _ = stdout.flush();
     } else {
         println!("{}", msg);
     }
@@ -32,6 +34,7 @@ pub fn success(msg: &str) {
         let _ = stdout.set_color(termcolor::ColorSpec::new().set_fg(Some(Color::Green)).set_bold(true));
         let _ = writeln!(stdout, "{}", msg);
         let _ = stdout.reset();
+        let _ = stdout.flush();
     } else {
         println!("{}", msg);
     }
@@ -44,6 +47,7 @@ pub fn info(msg: &str) {
         let _ = stdout.set_color(termcolor::ColorSpec::new().set_fg(Some(Color::Cyan)));
         let _ = writeln!(stdout, "{}", msg);
         let _ = stdout.reset();
+        let _ = stdout.flush();
     } else {
         println!("{}", msg);
     }
