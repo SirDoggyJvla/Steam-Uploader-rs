@@ -1,5 +1,5 @@
 use steamworks;
-use owo_colors::OwoColorize;
+use crate::colors;
 
 pub fn load_steam(appid: u32) -> (steamworks::Client, steamworks::UGC) {
     make_appidtxt(appid);
@@ -21,13 +21,13 @@ pub fn load_steam(appid: u32) -> (steamworks::Client, steamworks::UGC) {
 pub fn make_appidtxt(appid: u32) {
     match std::fs::write("steam_appid.txt", appid.to_string()) {
         Ok(_) => {},
-        Err(e) => eprintln!("{}", format!("Failed to write steam_appid.txt file: {}", e).bright_red()),
+        Err(e) => colors::error(&format!("Failed to write steam_appid.txt file: {}", e)),
     }
 }
 
 pub fn delete_appidtxt() {
     match std::fs::remove_file("steam_appid.txt") {
         Ok(_) => {},
-        Err(e) => eprintln!("{}", format!("Failed to delete steam_appid.txt file: {}", e).bright_red()),
+        Err(e) => colors::error(&format!("Failed to delete steam_appid.txt file: {}", e)),
     }
 }

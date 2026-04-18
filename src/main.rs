@@ -3,10 +3,10 @@ use steamworks;
 
 mod steam;
 mod manifest;
+mod colors;
 
 use clap::{Parser, Subcommand};
 use manifest::Manifest;
-use owo_colors::OwoColorize;
 
 #[derive(Parser)]
 #[command(name = "Steam Uploader")]
@@ -59,19 +59,19 @@ fn main() {
                         steamworks::PublishedFileId(workshopid)
                     } else {
                         // no workshop ID, create one
-                        println!("{}", "No workshopid found in manifest. Creating new workshop item...".yellow());
+                        colors::warning("No workshopid found in manifest. Creating new workshop item...");
                         match steam::create::create_item(&client, &ugc, manifest.appid) {
                             Ok(id) => {
-                                println!("{}", format!("Created workshop item: {:?}", id).bright_green());
+                                colors::success(&format!("Created workshop item: {:?}", id));
                                 // update manifest with new workshopid and save it to the source file
                                 match manifest.save_with_id_to_source(id.0) {
-                                    Ok(_) => println!("{}", "Updated manifest with new workshopid".bright_blue()),
-                                    Err(e) => eprintln!("{}", format!("Warning: Could not update manifest file: {}", e).bright_red()),
+                                    Ok(_) => colors::info("Updated manifest with new workshopid"),
+                                    Err(e) => colors::error(&format!("Warning: Could not update manifest file: {}", e)),
                                 }
                                 id
                             }
                             Err(e) => {
-                                eprintln!("{}", format!("Error creating workshop item: {}", e).bright_red());
+                                colors::error(&format!("Error creating workshop item: {}", e));
                                 return;
                             }
                         }
@@ -81,21 +81,21 @@ fn main() {
                     let content_path = match manifest.get_content_path() {
                         Ok(path) => path.to_string_lossy().to_string(),
                         Err(e) => {
-                            eprintln!("{}", format!("Error resolving content path: {}", e).bright_red());
+                            colors::error(&format!("Error resolving content path: {}", e));
                             return;
                         }
                     };
                     let preview_path = match manifest.get_preview_path() {
                         Ok(path) => path.to_string_lossy().to_string(),
                         Err(e) => {
-                            eprintln!("{}", format!("Error resolving preview path: {}", e).bright_red());
+                            colors::error(&format!("Error resolving preview path: {}", e));
                             return;
                         }
                     };
                     let description = match manifest.get_description() {
                         Ok(desc) => desc,
                         Err(e) => {
-                            eprintln!("{}", format!("Error reading description: {}", e).bright_red());
+                            colors::error(&format!("Error reading description: {}", e));
                             return;
                         }
                     };
@@ -113,7 +113,7 @@ fn main() {
                         patchnote.as_deref(),
                     );
                 }
-                Err(e) => eprintln!("{}", format!("Error loading manifest: {}", e).bright_red()),
+                Err(e) => colors::error(&format!("Error loading manifest: {}", e)),
             }
         }
 
