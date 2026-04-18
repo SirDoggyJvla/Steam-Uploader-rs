@@ -2,6 +2,8 @@ use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::{Path, PathBuf};
 
+use crate::colors;
+
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Manifest {
     pub appid: u32,
@@ -34,10 +36,13 @@ impl Manifest {
         let path_str = path.to_string_lossy();
 
         let mut manifest: Self = if path_str.ends_with(".json") {
+            colors::success("Loaded JSON manifest successfully.");
             serde_json::from_str(&content)?
         } else if path_str.ends_with(".toml") {
+            colors::success("Loaded TOML manifest successfully.");
             toml::from_str(&content)?
         } else if path_str.ends_with(".yaml") || path_str.ends_with(".yml") {
+            colors::success("Loaded YAML manifest successfully.");
             serde_yaml::from_str(&content)?
         } else {
             // throw an error
