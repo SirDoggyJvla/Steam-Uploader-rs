@@ -24,4 +24,5 @@ serde_json = "1.0"
 toml = "0.8"
 serde_yaml = "0.9"
 
-colored = "2.1" # used for colored terminal output
+# colored = "2.1" # used for colored terminal output
+owo-colors = "4" # used for colored terminal output

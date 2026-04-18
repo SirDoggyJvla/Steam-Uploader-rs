@@ -6,7 +6,7 @@ mod manifest;
 
 use clap::{Parser, Subcommand};
 use manifest::Manifest;
-use colored::Colorize;
+use owo_colors::OwoColorize;
 
 #[derive(Parser)]
 #[command(name = "Steam Uploader")]

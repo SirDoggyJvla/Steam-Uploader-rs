@@ -1,5 +1,5 @@
 use steamworks;
-use colored::Colorize;
+use owo_colors::OwoColorize;
 
 pub fn load_steam(appid: u32) -> (steamworks::Client, steamworks::UGC) {
     make_appidtxt(appid);
