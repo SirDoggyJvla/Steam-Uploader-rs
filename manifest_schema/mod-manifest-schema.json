@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://steamuploader.example.com/mod-manifest-schema.json",
+  "title": "Steam Mod Manifest Schema",
+  "description": "Schema for mod manifest files used with SteamUploader. Supports JSON, YAML, and TOML formats.",
+  "type": "object",
+  "required": [
+    "appid",
+    "content",
+    "title"
+  ],
+  "properties": {
+    "appid": {
+      "type": "integer",
+      "description": "Steam application ID for the game",
+      "minimum": 1,
+      "examples": [108600]
+    },
+    "content": {
+      "type": "string",
+      "description": "Path to the mod content directory (relative or absolute)",
+      "examples": ["./Contents", "/path/to/mod/content"]
+    },
+    "preview": {
+      "type": "string",
+      "description": "Path to the preview image file for the mod (PNG, JPG, etc.)",
+      "examples": ["./Contents/preview.png", "./preview.jpg"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Title/name of the mod as it will appear on Steam Workshop",
+      "minLength": 1,
+      "maxLength": 255,
+      "examples": ["SteamUploader test upload JSON", "My Awesome Mod"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Path to description file (supports BBCode format) or inline description text",
+      "examples": ["./description.bbcode", "./description.txt", "My mod description"]
+    },
+    "visibility": {
+      "type": "integer",
+      "description": "Visibility level for the mod on Steam Workshop. 0=Private, 1=Friends Only, 2=Public",
+      "enum": [0, 1, 2],
+      "default": 2,
+      "examples": [0, 1, 2]
+    },
+    "tags": {
+      "type": "array",
+      "description": "Optional tags to categorize the mod",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "examples": [["gameplay", "utility"], ["cosmetic"]]
+    },
+    "changelog": {
+      "type": "string",
+      "description": "Path to changelog file or inline changelog text",
+      "examples": ["./CHANGELOG.txt", "Initial release"]
+    }
+  },
+  "additionalProperties": false
+}
