@@ -28,41 +28,33 @@
     },
     "preview": {
       "type": "string",
-      "description": "Path to the preview image file for the mod (PNG, JPG, etc.)",
-      "examples": ["./Contents/preview.png", "./preview.jpg"]
+      "description": "Path to the preview image file for the mod (PNG, GIF)",
+      "examples": ["./Contents/preview.png", "./animation.gif"]
     },
     "title": {
       "type": "string",
       "description": "Title/name of the mod as it will appear on Steam Workshop",
-      "minLength": 1,
-      "maxLength": 255,
       "examples": ["SteamUploader test upload JSON", "My Awesome Mod"]
     },
     "description": {
       "type": "string",
-      "description": "Path to description file (supports BBCode format) or inline description text",
+      "description": "Path to description file or inline description text. The description of Steam Workshop items uses BBCode formatting.",
       "examples": ["./description.bbcode", "./description.txt", "My mod description"]
     },
     "visibility": {
       "type": "integer",
-      "description": "Visibility level for the mod on Steam Workshop. 0=Private, 1=Friends Only, 2=Public",
-      "enum": [0, 1, 2],
+      "description": "Visibility level for the mod on Steam Workshop. 0=Public, 1=Friends Only, 2=Private/Hidden, 3=Unlisted",
+      "enum": [0, 1, 2, 3],
       "default": 2,
-      "examples": [0, 1, 2]
+      "examples": [0, 1, 2, 3]
     },
     "tags": {
       "type": "array",
-      "description": "Optional tags to categorize the mod",
+      "description": "Optional tags to categorize the mod. This is dependent on the Workshop of the Game you upload to. Check the game's Workshop page for available tags.",
       "items": {
         "type": "string",
         "minLength": 1
-      },
-      "examples": [["gameplay", "utility"], ["cosmetic"]]
-    },
-    "changelog": {
-      "type": "string",
-      "description": "Path to changelog file or inline changelog text",
-      "examples": ["./CHANGELOG.txt", "Initial release"]
+      }
     }
   },
   "additionalProperties": false
