@@ -1,42 +1,50 @@
 # Steam Uploader Rust
 Steam Uploader Rust is the successor to [Steam Uploader](https://github.com/SirDoggyJvla/Steam-Uploader), rewritten in Rust. It uses the binding library [steamworks-rs](https://github.com/Noxime/steamworks-rs) to interact with the Steamworks SDK.
 
+The tool is a command-line application that can be used to upload and delete items on the Steam Workshop. It uses a [manifest file](#manifest-file-format) to store the necessary information for uploading items, such as the app ID, workshop ID, title, description and visibility.
+
 ## Usage
-The tool is a command-line application that can be used to upload and delete items on the Steam Workshop. It uses a manifest file to store the necessary information for uploading items, such as the app ID, workshop ID, title, description and visibility.
-
-The manifest file needs to be either a JSON, YAML or TOML file and should be named `mod-manifest` (for example `mod-manifest.json`). The tool will automatically look for the manifest file in the current directory but it can also be specified with the `--manifest` flag.
-
-To run the tool, simply execute the following command in the terminal, in the folder where the manifest file is located:
+### Uploading an item
+To run the tool, simply execute the following command in the terminal, in the folder where the [manifest file](#manifest-file-format) is located:
 ```bash
 SteamUploader upload
 ```
 
-And by manunally specifying the manifest file:
+Alternatively, you can manually specify the manifest file:
 ```bash
 SteamUploader upload --manifest path/to/manifest.json
 ```
 
-## Example manifest file
-Example manifest files can be found in [the examples folder](test/example_mod/). Here is an example of a manifest file in JSON format:
-```json
-{
-    "appid": 108600,
-    "workshopid": 123456789,
-    "content": "./Contents",
-    "preview": "./preview.png",
-    "title": "Example Mod",
-    "description": "./description.bbcode",
-    "visibility": 2
-}
+You can pass a patch note path with the `--patchnote` flag. The patch note file needs to be a text file with any extension. Patch notes in Steam use the BBCode format (see the [BBCode files](#bbcode-files) section).
+```bash
+SteamUploader upload --patchnote path/to/patchnote.txt
 ```
+
+You can do a dry run with the `--dry-run` flag. This will read the manifest file and print the information that would be uploaded to the console, without actually uploading anything to Steam. Use this to verify if any information is wrong before doing an actual upload.
+```bash
+SteamUploader upload --dry-run
+```
+
+### Deleting an item
+To delete an item from the Steam Workshop, you can use the following command:
+```bash
+SteamUploader delete --workshopid <workshop_id> --appid <app_id>
+```
+
+This does not depend on the manifest file. The `workshopid` is the ID of the item you want to delete (see [this](https://pzwiki.net/wiki/Workshop_ID)), and the `appid` is the [application ID](https://pzwiki.net/wiki/App_ID) of the game the item belongs to. For example, the app ID of Project Zomboid is `108600`.
+
+## Manifest file format
+The manifest file needs to be either a JSON, YAML or TOML file (`.json`, `.yaml`, `.yml`, `.toml`) and should be named `mod-manifest` (for example `mod-manifest.yaml`). The tool will automatically look for the manifest file in the current directory but it can also be specified with the `--manifest` flag.
+
+You can find example manifest files in the [examples folder](test/example_manifests/)
+
+## BBCode files
+The [BBCode extension](https://marketplace.visualstudio.com/items?itemName=rickvansloten.bbcode) for VSCode allows for syntax highlighting of [BBCode text](https://steamcommunity.com/sharedfiles/filedetails/?id=2807121939). To use it, simply create a new file with the `.bbcode` extension and write your BBCode content in it, then simply reference that file inside your [manifest file](#manifest-file-format).
 
 ## Build
 Building is done with Cargo. You can build the project with the following command:
 ```bash
-make build
+cargo build --release
 ```
 
-To easily run it after building, you can use the following command:
-```bash
-make run
-```
+The built binary can be found in the `target/release` folder.
