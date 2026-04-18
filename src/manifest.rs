@@ -96,4 +96,19 @@ impl Manifest {
         self.workshopid = Some(workshopid);
         self.save_to_source()
     }
+
+    pub fn get_description(&self) -> String {
+        // test if the manifest description is a path to a file
+        // if so, load that file content as the description
+        // otherwise, return the description as is
+        let description_path = Path::new(&self.description);
+        if description_path.exists() && description_path.is_file() {
+            match fs::read_to_string(description_path) {
+                Ok(content) => content,
+                Err(_) => self.description.clone(), // if there's an error reading the file, return the original description
+            }
+        } else {
+            self.description.clone()
+        }
+    }
 }

@@ -6,6 +6,7 @@ mod manifest;
 
 use clap::{Parser, Subcommand};
 use manifest::Manifest;
+use colored::Colorize;
 
 #[derive(Parser)]
 #[command(name = "Steam Uploader")]
@@ -17,13 +18,6 @@ struct Args {
 
 #[derive(Subcommand)]
 enum Commands {
-    /// Create a new workshop item (loads from manifest file)
-    Create {
-        /// Optional path to manifest file
-        #[arg(short, long)]
-        manifest: Option<String>,
-    },
-    
     /// Upload content to an item (creates if workshopid not in manifest)
     Upload {
         /// Optional patch note to include with the upload
@@ -54,22 +48,6 @@ fn main() {
 
     let args = Args::parse();
     match args.command {
-        Commands::Create { manifest: manifest_path } => {
-            match Manifest::load_default(manifest_path) {
-                Ok(manifest) => {
-                    match steam::create::create_item(&client, &ugc, manifest.appid) {
-                        Ok(published_id) => {
-                            println!("Successfully created workshop item: {:?}", published_id);
-                            println!("Add the following to your manifest file:");
-                            println!("workshopid = {}", published_id.0);
-                        }
-                        Err(e) => eprintln!("Failed to create workshop item: {}", e),
-                    }
-                }
-                Err(e) => eprintln!("Error loading manifest: {}", e),
-            }
-        }
-
         Commands::Upload { patchnote, manifest: manifest_path } => {
             match Manifest::load_default(manifest_path) {
                 Ok(mut manifest) => {
@@ -80,19 +58,19 @@ fn main() {
                         steamworks::PublishedFileId(workshopid)
                     } else {
                         // no workshop ID, create one
-                        println!("No workshopid found in manifest. Creating new workshop item...");
+                        println!("{}", "No workshopid found in manifest. Creating new workshop item...".yellow());
                         match steam::create::create_item(&client, &ugc, manifest.appid) {
                             Ok(id) => {
-                                println!("Created workshop item: {:?}", id);
+                                println!("{}", format!("Created workshop item: {:?}", id).bright_green());
                                 // update manifest with new workshopid and save it to the source file
                                 match manifest.save_with_id_to_source(id.0) {
-                                    Ok(_) => println!("Updated manifest with new workshopid"),
-                                    Err(e) => eprintln!("Warning: Could not update manifest file: {}", e),
+                                    Ok(_) => println!("{}", "Updated manifest with new workshopid".bright_blue()),
+                                    Err(e) => eprintln!("{}", format!("Warning: Could not update manifest file: {}", e).bright_red()),
                                 }
                                 id
                             }
                             Err(e) => {
-                                eprintln!("Error creating workshop item: {}", e);
+                                eprintln!("{}", format!("Error creating workshop item: {}", e).bright_red());
                                 return;
                             }
                         }
@@ -106,12 +84,12 @@ fn main() {
                         &manifest.content,
                         &manifest.preview,
                         &manifest.title,
-                        &manifest.description,
+                        &manifest.get_description(),
                         manifest.visibility,
                         patchnote.as_deref(),
                     );
                 }
-                Err(e) => eprintln!("Error loading manifest: {}", e),
+                Err(e) => eprintln!("{}", format!("Error loading manifest: {}", e).bright_red()),
             }
         }
 
