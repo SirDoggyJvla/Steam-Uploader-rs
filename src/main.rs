@@ -60,6 +60,7 @@ fn main() {
                     // if not, then we create a new item and update the manifest file
                     let published_id = if let Some(workshopid) = manifest.workshopid {
                         // already have a workshop ID, just upload
+                        colors::info(&format!("Found existing workshopid in manifest: {}", workshopid));
                         steamworks::PublishedFileId(workshopid)
                     } else {
                         // no workshop ID, create one
@@ -117,6 +118,7 @@ fn main() {
                     };
 
                     // upload the content
+                    colors::info("Uploading content to Steam Workshop...");
                     steam::uploader::upload_item_content(
                         &ugc,
                         manifest.appid,
