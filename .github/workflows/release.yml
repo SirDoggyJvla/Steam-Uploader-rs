@@ -20,6 +20,9 @@ jobs:
 
       - uses: actions-rust-lang/setup-rust-toolchain@v1
 
+      - name: Clean build artifacts
+        run: cargo clean
+
       - name: Build
         run: cargo build --release
 
