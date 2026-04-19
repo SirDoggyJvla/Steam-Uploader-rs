@@ -15,13 +15,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Initialize submodules
+        run: git submodule update --init --recursive
+
       - uses: actions-rust-lang/setup-rust-toolchain@v1
 
       - name: Build
         run: cargo build --release
-
-      - name: Subpackage Steamworks Rust
-        run: git submodule update --init --recursive
 
       - name: Zip binary and Steamworks SDK (Linux)
         if: matrix.os == 'ubuntu-latest'
