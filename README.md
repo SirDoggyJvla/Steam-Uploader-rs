@@ -52,7 +52,29 @@ This does not depend on the manifest file. The `workshopid` is the ID of the ite
 ## Manifest file format
 The manifest file needs to be either a JSON, YAML or TOML file (`.json`, `.yaml`, `.yml`, `.toml`) and should be named `mod-manifest` (for example `mod-manifest.yaml`). The tool will automatically look for the manifest file in the current directory but it can also be specified with the `--manifest` flag.
 
-You can find example manifest files in the [examples folder](test/example_manifests/)
+You can find example manifest files in the [examples folder](test/example_manifests/). Here's the `init` command output for `mod-manifest.json`:
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/SirDoggyJvla/SteamUploader-rs/refs/heads/main/manifest_schema/mod-manifest-schema.json",
+  "appid": 0,
+  "content": "./Contents",
+  "preview": "preview.png",
+  "title": "Mod Template",
+  "description": "./description.bbcode",
+  "visibility": 2,
+  "tags": []
+}
+```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `$schema` | string (optional) | This field is optional and is only used for validation and autocompletion in supported editors. In Visual Studio Code, you will need to add `https://raw.githubusercontent.com/SirDoggyJvla/SteamUploader-rs` as a trusted source in your JSON schema settings to enable this feature.
+| `appid` | integer | The [application ID](https://pzwiki.net/wiki/App_ID) of the game the item belongs to. For example, the app ID of Project Zomboid is `108600`. |
+| `workshopid` | integer (optional) | The [workshop ID](https://pzwiki.net/wiki/Workshop_ID) of the item. This is only needed for updating existing items, not for uploading new items. When uploading a mod that didn't have a workshop ID setup, it will add the workshop ID of the newly created mod to the manifest file. |
+| `content` | string | The path to the content folder that contains the files you want to upload. This can be a relative path from the manifest file or an absolute path. |
+| `preview` | string | The path to the preview image that will be shown on the Steam Workshop page. This can be a relative path from the manifest file or an absolute path. |
+| `title` | string | The title of the item. |
+| `description` | string | The description of the item or the path to a text file that contains the description. The description should be in the [BBCode format](#bbcode-files).
 
 ## BBCode files
 The [BBCode extension](https://marketplace.visualstudio.com/items?itemName=rickvansloten.bbcode) for VSCode allows for syntax highlighting of [BBCode text](https://steamcommunity.com/sharedfiles/filedetails/?id=2807121939). To use it, simply create a new file with the `.bbcode` extension and write your BBCode content in it, then simply reference that file inside your [manifest file](#manifest-file-format).
