@@ -18,6 +18,13 @@ struct Args {
 
 #[derive(Subcommand)]
 enum Commands {
+    /// Initialize a new manifest file with default values (mod-manifest.json)
+    Init {
+        /// File format, default is JSON. Options: json, toml, yaml, yml
+        #[arg(short, long, default_value = "json", value_parser = ["json", "toml", "yaml", "yml"])]
+        format: String,
+    },
+
     /// Upload content to an item (creates if workshopid not in manifest)
     Upload {
         /// Optional patch note to include with the upload
@@ -50,6 +57,10 @@ enum Commands {
 fn main() {
     let args = Args::parse();
     match args.command {
+        Commands::Init { format } => {
+            Manifest::init(&format);
+        }
+
         Commands::Upload { patchnote, manifest: manifest_path, dry_run } => {
             match Manifest::load_default(manifest_path) {
                 Ok(mut manifest) => {

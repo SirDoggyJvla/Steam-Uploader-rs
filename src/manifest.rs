@@ -28,6 +28,28 @@ impl Manifest {
         "mod-manifest.yml",
     ];
 
+    /// Initialize a new manifest with default values.
+    /// And save it
+    pub fn init(extension: &str) -> Self {
+        let manifest = Self {
+            appid: 0,
+            workshopid: None,
+            content: "./Contents".to_string(),
+            preview: "preview.png".to_string(),
+            title: "Mod Template".to_string(),
+            description: "./description.bbcode".to_string(),
+            visibility: 2, // default to private
+            source_path: None,
+        };
+        let filename = format!("mod-manifest.{}", extension);
+        if let Err(e) = manifest.save(&filename) {
+            colors::error(&format!("Failed to save manifest: {}", e));
+        } else {
+            colors::success(&format!("Initialized new manifest at {}", filename));
+        }
+        manifest
+    }
+
     /// Load manifest from file, auto-detecting format (JSON, TOML, or YAML).
     /// If no format can be detected, an error is returned.
     pub fn load<P: AsRef<Path>>(path: P) -> Result<Self, Box<dyn std::error::Error>> {
@@ -55,9 +77,25 @@ impl Manifest {
 
     /// Load manifest from default locations: `manifest.json`, `manifest.toml`, `manifest.yaml`, or `manifest.yml`.
     pub fn load_default(manifest_path: Option<String>) -> Result<Self, Box<dyn std::error::Error>> {
+        // verify that the provided manifest path is a valid manifest format
         if let Some(path) = manifest_path {
+            let filename = Path::new(&path)
+                .file_name()
+                .and_then(|n| n.to_str())
+                .ok_or("Invalid manifest path")?;
+            
+            if !Self::MANIFEST_FILENAMES.contains(&filename) {
+                return Err(format!(
+                    "Invalid manifest filename: {}. Must be one of: {}",
+                    filename,
+                    Self::MANIFEST_FILENAMES.join(", ")
+                ).into());
+            }
+            
             return Self::load(path);
         }
+
+        // no manifest path provided, check the default location
         for filename in &Self::MANIFEST_FILENAMES {
             if Path::new(filename).exists() {
                 return Self::load(filename);
