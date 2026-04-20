@@ -14,7 +14,8 @@ pub struct Manifest {
     pub title: String,
     pub description: String,
     pub visibility: u32,
-    
+    pub tags: Vec<String>,
+
     #[serde(skip)]
     source_path: Option<PathBuf>,
 }
@@ -39,6 +40,7 @@ impl Manifest {
             title: "Mod Template".to_string(),
             description: "./description.bbcode".to_string(),
             visibility: 2, // default to private
+            tags: Vec::new(),
             source_path: None,
         };
         let filename = format!("mod-manifest.{}", extension);

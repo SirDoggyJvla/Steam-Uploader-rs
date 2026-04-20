@@ -50,7 +50,7 @@
     },
     "tags": {
       "type": "array",
-      "description": "Optional tags to categorize the mod. This is dependent on the Workshop of the Game you upload to. Check the game's Workshop page for available tags.",
+      "description": "Tags to categorize the mod. This is dependent on the Workshop of the Game you upload to. Check the game's Workshop page for available tags.",
       "items": {
         "type": "string",
         "minLength": 1

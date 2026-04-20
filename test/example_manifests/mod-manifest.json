@@ -1,9 +1,12 @@
 {
-  "$schema": "https://raw.githubusercontent.com/SirDoggyJvla/SteamUploader-rs/refs/heads/main/manifest_schema/mod-manifest-schema.json",
   "appid": 108600,
   "content": "./Contents",
   "preview": "./Contents/preview.png",
   "title": "SteamUploader test upload JSON",
   "description": "./description.bbcode",
-  "visibility": 2
+  "visibility": 2,
+  "tags": [
+    "Build 42",
+    "Misc"
+  ]
 }

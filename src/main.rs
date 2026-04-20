@@ -139,6 +139,7 @@ fn main() {
                         &manifest.title,
                         &description,
                         manifest.visibility,
+                        manifest.tags,
                         patchnote.as_deref(),
                         dry_run,
                     );

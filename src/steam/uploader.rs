@@ -21,7 +21,8 @@ pub fn upload_item_content(
     published_id: steamworks::PublishedFileId,
     content: &str, preview: &str,
     title: &str, description: &str,
-    visibility: u32, patchnote: Option<&str>,
+    visibility: u32, tags: Vec<String>,
+    patchnote: Option<&str>,
     dry_run: bool,
 ) {
     // Validate visibility before proceeding
@@ -42,6 +43,7 @@ pub fn upload_item_content(
         colors::info(&format!("Content path: {}", content));
         colors::info(&format!("Preview path: {}", preview));
         colors::info(&format!("Visibility: {:?}", visibility_enum));
+        colors::info(&format!("Tags: {:?}", tags));
         if let Some(patchnote) = patchnote {
             colors::info(&format!("Patchnote: {}", patchnote));
         }
@@ -70,7 +72,7 @@ pub fn upload_item_content(
         .preview_path(std::path::Path::new(preview))
         .title(title)
         .description(description)
-        .tags(Vec::<String>::new(), false)
+        .tags(tags, false)
         .visibility(visibility_enum)
         .submit(patchnote, |upload_result| {
             // handle the result

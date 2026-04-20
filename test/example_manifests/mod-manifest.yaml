@@ -5,3 +5,7 @@ preview: ./Contents/preview.png
 title: "SteamUploader test upload YAML"
 description: "./description.bbcode"
 visibility: 2
+tags: [
+  "Build 42",
+  "Misc"
+]
