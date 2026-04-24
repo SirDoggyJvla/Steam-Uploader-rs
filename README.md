@@ -96,3 +96,7 @@ cargo build --release
 ```
 
 The built binary can be found in the `target/release` folder.
+
+## Contact
+The tool was created by me (discord: SimKDT) for the Project Zomboid modding community.
+You can find us on the [Unofficial Modding Discord](https://pzwiki.net/wiki/PZ_Modding_Community) of Project Zomboid.
