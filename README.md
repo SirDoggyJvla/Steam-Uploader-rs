@@ -22,12 +22,19 @@ And for Linux:
 SteamUploader
 ```
 
-You need to be in the folder of the manifest file you want to upload preferably, you can go there with the `cd` command in the terminal. For example, if your manifest file is located in `C:\MyMod\mod-manifest.json`, you can navigate to that folder with the following command:
-```bash
-cd C:\MyMod
-```
+The CLI menu proposes multiple options to run the different commands of the tool:
+- a mod manager menu to manage multiple manifest files in the configuration
+- uploading from the current path manifest file (if present)
+- uploading from a specified manifest file
+- initializing a new manifest file in the current path
+- deleting an item from the Steam Workshop
 
-This way, the upload command will automatically find the manifest file.
+The first option will allow you to store multiple manifest files in a configuration file, so you can easily switch between them when uploading items without having to specify the manifest file path every time.
+
+In this menu you can:
+- select a manifest file to upload
+- add a new manifest file to the configuration
+- remove a manifest file from the configuration
 
 ## Commands
 You can get a list of all available commands with the following command:
@@ -67,6 +74,13 @@ You can do a dry run with the `--dry-run` flag. This will read the manifest file
 SteamUploader upload --dry-run
 ```
 
+You need to be in the folder of the manifest file you want to use the upload command preferably, you can go there with the `cd` command in the terminal. For example, if your manifest file is located in `C:\MyMod\mod-manifest.json`, you can navigate to that folder with the following command:
+```bash
+cd C:\MyMod
+```
+
+This way, the upload command will automatically find the manifest file.
+
 ### Deleting an item
 To delete an item from the Steam Workshop, you can use the following command:
 ```bash
@@ -74,6 +88,18 @@ SteamUploader delete --workshopid <workshop_id> --appid <app_id>
 ```
 
 This does not depend on the manifest file. The `workshopid` is the ID of the item you want to delete (see [this](https://pzwiki.net/wiki/Workshop_ID)), and the `appid` is the [application ID](https://pzwiki.net/wiki/App_ID) of the game the item belongs to. For example, the app ID of Project Zomboid is `108600`.
+
+### Adding manifest to the configuration
+You can add a manifest file to the configuration with the following command:
+```bash
+SteamUploader add-manifest --name <name> --path <path>
+```
+
+### Removing manifest from the configuration
+You can remove a manifest file from the configuration with the following command:
+```bash
+SteamUploader remove-manifest --name <name>
+```
 
 ## Manifest file format
 The manifest file needs to be either a JSON, YAML or TOML file (`.json`, `.yaml`, `.yml`, `.toml`) and should be named `mod-manifest` (for example `mod-manifest.yaml`). The tool will automatically look for the manifest file in the current directory but it can also be specified with the `--manifest` flag.
