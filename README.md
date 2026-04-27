@@ -146,6 +146,9 @@ You can find us on the [Unofficial Modding Discord](https://pzwiki.net/wiki/PZ_M
 You can find the license in the [LICENSE](LICENSE) file.
 
 ## Changelogs
+0.2.1
+- added the mod manager and new CLI commands to manage manifest files in the configuration
+
 0.2.0
 - added a CLI menu to run commands easily
 
