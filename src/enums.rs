@@ -68,6 +68,7 @@ pub enum Commands {
         path: String,
     },
 
+    /// Remove manifest configuration
     RemoveManifest {
         /// Name of the manifest configuration to remove
         #[arg(short, long)]

@@ -152,13 +152,13 @@ pub fn display_manifests_menu() -> Commands {
         options.push(manifests_options::REMOVE_MANIFEST.to_string());
         options.push(manifests_options::BACK.to_string());
 
+
+        // chose manifest or add/remove
         let selection = inquire::Select::new(
             "Select a manifest to upload",
             options.clone())
             .prompt()
             .expect("Failed to read selection");
-
-        
 
         match selection.as_str() {
             manifests_options::ADD_MANIFEST => {
